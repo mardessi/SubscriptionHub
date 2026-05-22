@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SubscriptionHub.Application.Common.Interfaces;
 using SubscriptionHub.Infrastructure.Persistence;
 
 namespace SubscriptionHub.Infrastructure
@@ -15,6 +16,8 @@ namespace SubscriptionHub.Infrastructure
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
             // Register repositories, services, etc. here
             // e.g. services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IApplicationDbContext>(provider =>
+                         provider.GetRequiredService<AppDbContext>());
             return services;
         }
     }
