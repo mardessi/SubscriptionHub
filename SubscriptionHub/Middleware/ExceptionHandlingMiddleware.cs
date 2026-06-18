@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using SubscriptionHub.Application.Common.Exceptions;
 using System.Net;
 using System.Text.Json;
 
@@ -37,6 +38,12 @@ public class ExceptionHandlingMiddleware
                     g => g.Select(e => e.ErrorMessage).ToArray());
 
             var response = new { errors };
+            await context.Response.WriteAsync(JsonSerializer.Serialize(response));
+        }
+        catch (NotFoundException ex)
+        {
+            context.Response.StatusCode = 404;
+            var response = new { error = ex.Message };
             await context.Response.WriteAsync(JsonSerializer.Serialize(response));
         }
         catch (Exception ex)
