@@ -14,6 +14,13 @@ namespace SubscriptionHub.Infrastructure.Persistence
         public DbSet<Tenant> Tenants => Set<Tenant>();
         public DbSet<User> Users => Set<User>();
 
+        public DbSet<SubscriptionPlan> SubscriptionPlans => Set<SubscriptionPlan>();
+
+        public DbSet<Subscription> Subscriptions => Set<Subscription>();
+        public DbSet<Payment> Payments => Set<Payment>();
+        public DbSet<Invoice> Invoices => Set<Invoice>();
+        public DbSet<InvoiceLine> InvoicesLines => Set<InvoiceLine>();
+
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             foreach (var entry in ChangeTracker.Entries<AuditableEntity>())
