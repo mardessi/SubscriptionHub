@@ -1,6 +1,4 @@
 ﻿using FluentValidation;
-using MediatR;
-using System.Data;
 
 namespace SubscriptionHub.Application.SubscriptionPlans.Commands.CreateSubscriptionPlan
 {
@@ -8,8 +6,8 @@ namespace SubscriptionHub.Application.SubscriptionPlans.Commands.CreateSubscript
     {
         public CreateSubscriptionPlanCommandValidator()
         {
-            RuleFor(x => x.TenantId)
-                .NotEmpty().WithMessage("TenantId is required.");
+            //RuleFor(x => x.TenantId)
+            //    .NotEmpty().WithMessage("TenantId is required.");
             RuleFor(x => x.Price)
                 .GreaterThan(0).WithMessage("Price must be greater than Zero.");
 

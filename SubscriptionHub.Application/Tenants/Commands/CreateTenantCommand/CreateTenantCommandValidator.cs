@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
-using SubscriptionHub.Application.Tenants.Commands;
 
-namespace SubscriptionHub.Application.Tenants.Validators
+namespace SubscriptionHub.Application.Tenants.Commands.CreateTenantCommand
 {
     public class CreateTenantCommandValidator : AbstractValidator<CreateTenantCommand>
     {

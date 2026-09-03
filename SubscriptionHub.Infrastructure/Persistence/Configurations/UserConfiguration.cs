@@ -35,6 +35,10 @@ namespace SubscriptionHub.Infrastructure.Persistence.Configurations
                 .HasForeignKey(x => x.TenantId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder.Property(x => x.PasswordHash)
+                .IsRequired()
+                .HasMaxLength(512);
+
             builder.HasIndex(x => x.Email)
             .IsUnique();
 

@@ -1,19 +1,19 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Controllers;
 using SubscriptionHub.Application.SubscriptionPlans.Commands.CreateSubscriptionPlan;
-using SubscriptionHub.Application.SubscriptionPlans.Queries.GetSubscriptionPlanById;
-using SubscriptionHub.Application.Tenants.Commands;
-using SubscriptionHub.Application.Tenants.Queries.GetTenantById;
+using SubscriptionHub.Application.SubscriptionPlans.Queries.GetAllSubscriptions;
+
 
 namespace SubscriptionHub.Api.Controllers
 {
     [ApiController]
     [Route("api/[Controller]")]
-    public class SubcriptionPlanController : ControllerBase
+    [Authorize]
+    public class SubcriptionPlansController : ControllerBase
     {
         private readonly IMediator _mediator;
-        public SubcriptionPlanController(IMediator mediator)
+        public SubcriptionPlansController(IMediator mediator)
         {
             _mediator = mediator;
         }
@@ -25,12 +25,12 @@ namespace SubscriptionHub.Api.Controllers
             return CreatedAtAction(nameof(Create), new { id }, new { id });
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(Guid id)
+        [HttpGet]
+        public async Task<IActionResult> Get()
         {
-            var subscriptionPlan = await _mediator.Send(new GetSubscriptionPlanByIdQuery { Id = id });
+            var subscriptionPlans = await _mediator.Send(new GetAllSubscriptionPlansQuery());
 
-            return Ok(subscriptionPlan);
+            return Ok(subscriptionPlans);
         }
     }
 }

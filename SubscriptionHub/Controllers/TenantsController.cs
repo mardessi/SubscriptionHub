@@ -1,12 +1,14 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SubscriptionHub.Application.Tenants.Commands;
+using SubscriptionHub.Application.Tenants.Commands.CreateTenantCommand;
 using SubscriptionHub.Application.Tenants.Queries.GetTenantById;
 
 namespace SubscriptionHub.Api.Controllers
 {
     [ApiController]
     [Route("api/[Controller]")]
+    [Authorize]
     public class TenantsController : ControllerBase
     {
         private readonly IMediator _mediator;

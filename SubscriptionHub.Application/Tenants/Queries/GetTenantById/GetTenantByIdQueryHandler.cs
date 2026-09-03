@@ -9,14 +9,19 @@ namespace SubscriptionHub.Application.Tenants.Queries.GetTenantById
     public class GetTenantByIdQueryHandler : IRequestHandler<GetTenantByIdQuery, TenantDto>
     {
         private readonly IApplicationDbContext _context;
-        public GetTenantByIdQueryHandler(IApplicationDbContext context)
+        private readonly ICurrentUserService _currentUserService;
+        public GetTenantByIdQueryHandler(IApplicationDbContext context, ICurrentUserService currentUserService)
         {
-            _context=context;
+            _context = context;
+            _currentUserService = currentUserService;
         }
 
 
         public async Task<TenantDto> Handle(GetTenantByIdQuery request, CancellationToken cancellationToken)
         {
+            if(request.Id!= _currentUserService.TenantId)
+                throw new UnauthorizedAccessException();
+
             var tenant = await _context.Tenants.FirstOrDefaultAsync(t => t.Id == request.Id, cancellationToken);
             if (tenant is null)
             {

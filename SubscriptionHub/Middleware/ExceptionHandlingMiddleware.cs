@@ -46,6 +46,13 @@ public class ExceptionHandlingMiddleware
             var response = new { error = ex.Message };
             await context.Response.WriteAsync(JsonSerializer.Serialize(response));
         }
+        catch (UnauthorizedException ex)
+        {
+            context.Response.StatusCode = 401;
+            context.Response.ContentType = "application/json";
+            var response = new { error = ex.Message };
+            await context.Response.WriteAsync(JsonSerializer.Serialize(response));
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "An unexpected error occurred.");

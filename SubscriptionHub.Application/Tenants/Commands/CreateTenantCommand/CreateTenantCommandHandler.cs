@@ -1,9 +1,8 @@
 ﻿using MediatR;
 using SubscriptionHub.Application.Common.Interfaces;
-using SubscriptionHub.Application.Tenants.Commands;
 using SubscriptionHub.Domain.Entities;
 
-namespace SubscriptionHub.Application.Tenants.Handlers
+namespace SubscriptionHub.Application.Tenants.Commands.CreateTenantCommand
 {
     public class CreateTenantCommandHandler : IRequestHandler<CreateTenantCommand, Guid>
     {

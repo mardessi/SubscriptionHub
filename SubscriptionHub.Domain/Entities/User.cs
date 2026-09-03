@@ -7,7 +7,7 @@ namespace SubscriptionHub.Domain.Entities
     {
 
         public Guid TenantId { get; private set; }
-        
+
         public string Email { get; private set; } = string.Empty;
         public string FirstName { get; private set; } = string.Empty;
         public string LastName { get; private set; } = string.Empty;
@@ -15,9 +15,10 @@ namespace SubscriptionHub.Domain.Entities
         public UserRole Role { get; private set; }
 
         public bool IsActive { get; private set; }
+        public string PasswordHash { get; private set; } = string.Empty;
 
         private User() { }
-        public User(Guid tenantId, string email, string firstName, string lastName, UserRole role)
+        public User(Guid tenantId, string email, string firstName, string lastName, UserRole role, string passwordHash)
         {
             if (tenantId == Guid.Empty)
                 throw new ArgumentException("TenantId is required.", nameof(tenantId));
@@ -27,9 +28,10 @@ namespace SubscriptionHub.Domain.Entities
                 throw new ArgumentException("First name is required.", nameof(firstName));
             if (string.IsNullOrWhiteSpace(lastName))
                 throw new ArgumentException("last name is required.", nameof(lastName));
-            if(role == UserRole.None)
+            if (role == UserRole.None)
                 throw new ArgumentException("Role is required.", nameof(role));
-
+            if (string.IsNullOrWhiteSpace(passwordHash))
+                throw new ArgumentException("Password hash is required.", nameof(passwordHash));
             TenantId = tenantId;
             Email = email;
             FirstName = firstName;
@@ -37,6 +39,7 @@ namespace SubscriptionHub.Domain.Entities
 
             Role = role;
             IsActive = true;
+            PasswordHash = passwordHash;
         }
 
         public void Deactivate()
@@ -65,5 +68,12 @@ namespace SubscriptionHub.Domain.Entities
             Role = role;
         }
 
+        public void SetPasswordHash(string passwordHash)
+        {
+            if (string.IsNullOrWhiteSpace(passwordHash))
+                throw new ArgumentException("Password hash is required.", nameof(passwordHash));
+            PasswordHash = passwordHash;
+
+        }
     }
 }

@@ -10,9 +10,9 @@ namespace SubscriptionHub.Application.Common.Interfaces
 
         DbSet<SubscriptionPlan> SubscriptionPlans { get; }
 
-        DbSet<Subscription> Subscriptions { get; }
+        DbSet<SubscriptionHub.Domain.Entities.Subscription> Subscriptions { get; }
         DbSet<Payment> Payments { get; }
-        DbSet<Invoice> Invoices { get; }
+        DbSet<SubscriptionHub.Domain.Entities.Invoice> Invoices { get; }
         DbSet<InvoiceLine> InvoicesLines { get; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
