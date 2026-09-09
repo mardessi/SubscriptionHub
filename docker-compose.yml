@@ -1,0 +1,25 @@
+
+services:
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=SubscriptionHub@2026
+    ports:
+      - "1433:1433"
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5136:8080"
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=SubscriptionHub;User Id=sa;Password=SubscriptionHub@2026;TrustServerCertificate=True
+      - JwtSettings__Secret=SubscriptionHub-Super-Secret-Key-2026-Min32Chars!!
+      - JwtSettings__Issuer=SubscriptionHub
+      - JwtSettings__Audience=SubscriptionHub
+      - JwtSettings__AccessTokenExpirationMinutes=60
+    depends_on:
+      - sqlserver

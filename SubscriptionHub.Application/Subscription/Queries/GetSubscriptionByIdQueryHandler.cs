@@ -31,7 +31,7 @@ namespace SubscriptionHub.Application.Subscription.Queries
             return new SubscriptionDto
             {
                 Id = subscription.Id,
-                TenantId = subscription.TenantId,
+                //TenantId = subscription.TenantId,
                 CustomerEmail = subscription.CustomerEmail,
                 StartDate = subscription.StartDate,
                 PlanId = subscription.PlanId,

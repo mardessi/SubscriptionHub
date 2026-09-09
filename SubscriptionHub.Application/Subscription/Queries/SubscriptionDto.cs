@@ -3,7 +3,7 @@
     public record SubscriptionDto
     {
         public Guid Id { get; init; }
-        public Guid TenantId { get; init; }
+        //public Guid TenantId { get; init; }
         public Guid PlanId { get; init; }
         public string CustomerEmail { get; init; } = string.Empty;
 
