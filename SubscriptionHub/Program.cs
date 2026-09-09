@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SubscriptionHub.Api.Middleware;
 using SubscriptionHub.Application;
@@ -62,30 +63,37 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+// Juste avant app.Run()
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider
         .GetRequiredService<AppDbContext>();
 
-    if (!context.Users.Any())
+    // 1. Applique les migrations automatiquement
+    context.Database.Migrate();
+
+    // 2. Seed tenant + user si base vide
+    if (!context.Tenants.Any())
     {
+        var tenant = new Tenant("SubscriptionHub", "subscriptionhub", "admin@subscriptionhub.com");
+        context.Tenants.Add(tenant);
+        await context.SaveChangesAsync();
+
         var passwordHasher = scope.ServiceProvider
             .GetRequiredService<IPasswordHasher>();
 
-        var tenantId = context.Tenants.First().Id;
-
         var user = new User(
-            tenantId,
+            tenant.Id,
             "admin@test.com",
             "Admin",
             "Test",
             UserRole.Admin,
             passwordHasher.Hash("Admin123!")
         );
-
         context.Users.Add(user);
         await context.SaveChangesAsync();
     }
 }
 
+app.Run();
 app.Run();
